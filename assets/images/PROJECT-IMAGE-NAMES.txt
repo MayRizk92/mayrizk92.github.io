@@ -1,0 +1,15 @@
+Add project images using these exact filenames:
+
+systematic-review.jpg
+acma-consultation.jpg
+northern-sydney.jpg
+perth-south-coastal.jpg
+nsw-government-workforce.jpg
+
+Recommended:
+- Landscape format
+- Around 1600 × 1000 pixels
+- JPG or WebP
+- Avoid confidential screenshots or copyrighted images without permission
+
+The cards already reference these filenames. Once an image is added, it will appear automatically behind the hover overlay.

@@ -1,0 +1,1 @@
+Add Audrey's portrait here as audrey-aghaji.jpg, then replace the photo placeholder in index.html using the commented image code.
