@@ -1,17 +1,23 @@
-const button = document.getElementById("menuButton");
+const menuButton = document.getElementById("menuButton");
 const menu = document.getElementById("menu");
 
-button?.addEventListener("click", () => {
+menuButton?.addEventListener("click", () => {
   const open = menu.classList.toggle("open");
-  button.setAttribute("aria-expanded", String(open));
+  menuButton.setAttribute("aria-expanded", String(open));
 });
 
 menu?.querySelectorAll("a").forEach((link) => {
-  link.addEventListener("click", () => menu.classList.remove("open"));
+  link.addEventListener("click", () => {
+    menu.classList.remove("open");
+    menuButton?.setAttribute("aria-expanded", "false");
+  });
 });
 
 const year = document.getElementById("year");
-if (year) year.textContent = new Date().getFullYear();
+
+if (year) {
+  year.textContent = new Date().getFullYear();
+}
 
 let serviceScrollPosition = 0;
 let activeServiceButton = null;
@@ -20,8 +26,6 @@ function restoreServicePosition() {
   const savedPosition = serviceScrollPosition;
   const trigger = activeServiceButton;
 
-  // Safari can adjust the page position after a native dialog closes.
-  // Restore it over the next frames so the visitor stays in Services.
   requestAnimationFrame(() => {
     window.scrollTo(0, savedPosition);
 
@@ -39,13 +43,18 @@ function restoreServicePosition() {
     });
   });
 
-  setTimeout(() => window.scrollTo(0, savedPosition), 80);
+  setTimeout(() => {
+    window.scrollTo(0, savedPosition);
+  }, 80);
 }
 
 document.querySelectorAll("[data-dialog]").forEach((serviceButton) => {
   serviceButton.addEventListener("click", () => {
     const dialog = document.getElementById(serviceButton.dataset.dialog);
-    if (!dialog) return;
+
+    if (!dialog) {
+      return;
+    }
 
     serviceScrollPosition = window.scrollY;
     activeServiceButton = serviceButton;
@@ -54,22 +63,26 @@ document.querySelectorAll("[data-dialog]").forEach((serviceButton) => {
 });
 
 document.querySelectorAll(".service-dialog").forEach((dialog) => {
-  dialog.querySelector(".dialog-close")?.addEventListener("click", (event) => {
+  const closeButton = dialog.querySelector(".dialog-close");
+
+  closeButton?.addEventListener("click", (event) => {
     event.preventDefault();
     dialog.close();
   });
 
   dialog.addEventListener("click", (event) => {
     const box = dialog.getBoundingClientRect();
+
     const clickedOutside =
       event.clientX < box.left ||
       event.clientX > box.right ||
       event.clientY < box.top ||
       event.clientY > box.bottom;
 
-    if (clickedOutside) dialog.close();
+    if (clickedOutside) {
+      dialog.close();
+    }
   });
 
-  // Covers the close button, clicking outside, and pressing Escape.
   dialog.addEventListener("close", restoreServicePosition);
 });
